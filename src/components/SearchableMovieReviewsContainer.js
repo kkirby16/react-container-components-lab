@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "isomorphic-fetch";
 import MovieReviews from "./MovieReviews";
 
-const NYT_API_KEY = "your-key-here";
+const NYT_API_KEY = "Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ";
 const URL =
   "https://api.nytimes.com/svc/movies/v2/reviews/search.json?" +
   `api-key=${NYT_API_KEY}`;
@@ -10,8 +10,8 @@ const URL =
 // Code SearchableMovieReviewsContainer Here
 
 class SearchableMovieReviewsContainer extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       searchTerm: "",
       reviews: [],
@@ -25,9 +25,7 @@ class SearchableMovieReviewsContainer extends Component {
 
   getMovieReviews = (event) => {
     event.preventDefault();
-    fetch(
-      `https://api.nytimes.com/svc/movies/v2/reviews/search.json?=Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ&query=${this.state.searchTerm}`
-    )
+    fetch(URL.concat(this.state.searchTerm))
       .then((response) => response.json())
       .then((movieData) => this.setState({ reviews: movieData.results }));
   };
@@ -42,12 +40,7 @@ class SearchableMovieReviewsContainer extends Component {
           ></input>
         </form>
 
-        {this.state.reviews.map((review) => (
-          <MovieReviews
-            display_title={review.display_title}
-            critics_pick={review.critics_pick}
-          />
-        ))}
+        <MovieReviews reviews={this.state.reviews} />
       </div>
     );
   }

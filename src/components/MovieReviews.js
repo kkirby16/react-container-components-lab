@@ -2,12 +2,14 @@
 
 import React from "react";
 
-const MovieReviews = ({ display_title, critics_pick }) => (
+const MovieReviews = (props) => (
   <div className="review-list">
-    <div className="review">
-      <h1>{display_title}</h1>
-      <p>{critics_pick}</p>
-    </div>
+    {props.reviews.map((review) => (
+      <div className="review">
+        <h1>{review.display_title}</h1>
+        <p>{review.critics_pick}</p>
+      </div>
+    ))}
   </div>
 );
 

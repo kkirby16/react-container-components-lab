@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "isomorphic-fetch";
 import MovieReviews from "./MovieReviews";
 
-const NYT_API_KEY = "Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ";
+const NYT_API_KEY = "your-key-here";
 const URL =
   "https://api.nytimes.com/svc/movies/v2/reviews/search.json?" +
   `api-key=${NYT_API_KEY}`;
@@ -10,30 +10,29 @@ const URL =
 // Code SearchableMovieReviewsContainer Here
 
 class SearchableMovieReviewsContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      search: "",
-      searchedMovieReviews: [],
+      searchTerm: "",
+      reviews: [],
     };
   }
 
   handleSearchChange = (event) => {
     event.preventDefault();
-    this.setState({ search: event.target.value });
+    this.setState({ searchTerm: event.target.value });
   };
 
-  getMovieReviews = () => {
+  getMovieReviews = (event) => {
+    event.preventDefault();
     fetch(
-      `https://api.nytimes.com/svc/movies/v2/reviews/search.json?=Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ&query=${this.state.search}`
+      `https://api.nytimes.com/svc/movies/v2/reviews/search.json?=Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ&query=${this.state.searchTerm}`
     )
       .then((response) => response.json())
-      .then((movieData) =>
-        this.setState({ searchedMovieReviews: movieData.results })
-      );
+      .then((movieData) => this.setState({ reviews: movieData.results }));
   };
 
-  return() {
+  render() {
     return (
       <div className="searchable-movie-reviews">
         <form onSubmit={this.getMovieReviews}>
@@ -42,7 +41,8 @@ class SearchableMovieReviewsContainer extends Component {
             value={this.state.value}
           ></input>
         </form>
-        {this.state.searchedMovieReviews.map((review) => (
+
+        {this.state.reviews.map((review) => (
           <MovieReviews
             display_title={review.display_title}
             critics_pick={review.critics_pick}

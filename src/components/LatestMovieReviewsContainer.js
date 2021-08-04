@@ -11,8 +11,8 @@ const URL =
 //api key: Ogrk0OP6BuMm0m1JatGOxGxAJWgi1tsQ
 
 class LatestMovieReviewsContainer extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       reviews: [],
